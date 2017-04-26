@@ -28,8 +28,7 @@ database.connect(function (err) {
 var router = express.Router();
 
 router.post("/authenticate", function (req, res) {
-    console.log("User requesting authentication: ");
-    console.log(req.body);
+    console.log("User requesting authentication: " + req.body);
     database.query("SELECT * FROM person WHERE name = '" + req.body.name + "' AND password = '" + req.body.password + "';", function (err, rows) {
         console.log(rows.length);
         if (rows.length === 1) {
@@ -81,6 +80,7 @@ router.use(function (request, response, next) {
 });
 
 router.get("/measurements", function (req, res) {
+    console.log("User getting measurements");
     database.query("SELECT * FROM measurement;", function (err, rows) {
         if (!err) {
             res.json(rows);
@@ -91,7 +91,7 @@ router.get("/measurements", function (req, res) {
 });
 
 router.post("/measurements", function (req, res) {
-    console.log(req.body);
+    console.log("User ping received: " + req.body);
     database.query("INSERT INTO measurement(`person_id`)(SELECT id FROM person WHERE name = '" + req.body.name + "');", function (err) {
         if (err) {
             console.error("Error inserting measurement: " + err.stack)
