@@ -44,26 +44,6 @@ router.post("/authenticate", function (req, res) {
     })
 });
 
-router.post("/measurements/Arthur", function (req, res) {
-    console.log("Arthur ping");
-    database.query("INSERT INTO measurement(`person_id`)(SELECT id FROM person WHERE name = 'Arthur');", function (err) {
-        if (err) {
-            console.error("Error inserting measurement: " + err.stack)
-        }
-        res.json({success: true, message: "successfully inserted data"});
-    });
-});
-
-router.post("/measurements/Mauro", function (req, res) {
-    console.log("Mauro ping");
-    database.query("INSERT INTO measurement(`person_id`)(SELECT id FROM person WHERE name = 'Mauro');", function (err) {
-        if (err) {
-            console.error("Error inserting measurement: " + err.stack)
-        }
-        res.json({success: true, message: "successfully inserted data"});
-    });
-});
-
 router.use(function (request, response, next) {
     var token = request.body.token || request.headers['x-access-token'];
     if (token) {
