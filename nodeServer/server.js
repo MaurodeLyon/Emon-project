@@ -48,6 +48,7 @@ router.get("/website/Mauro", function (req, res) {
     console.log("User getting measurements");
     database.query("SELECT timestamp FROM measurement JOIN person ON measurement.person_id=person.id WHERE person.name LIKE 'Mauro' ORDER BY measurement.id;", function (err, rows) {
         if (!err) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
             res.json(rows);
         } else {
             console.error("Error getting measurements: " + err.stack)
@@ -59,6 +60,7 @@ router.get("/website/Arthur", function (req, res) {
     console.log("User getting measurements");
     database.query("SELECT timestamp FROM measurement JOIN person ON measurement.person_id=person.id WHERE person.name LIKE 'Arthur' ORDER BY measurement.id;", function (err, rows) {
         if (!err) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
             res.json(rows);
         } else {
             console.error("Error getting measurements: " + err.stack)
@@ -85,6 +87,7 @@ router.get("/measurements", function (req, res) {
     console.log("User getting measurements");
     database.query("SELECT * FROM measurement;", function (err, rows) {
         if (!err) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
             res.json(rows);
         } else {
             console.error("Error getting measurements: " + err.stack)
