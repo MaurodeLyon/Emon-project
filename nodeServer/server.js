@@ -44,6 +44,17 @@ router.post("/authenticate", function (req, res) {
     })
 });
 
+router.get("/measurements", function (req, res) {
+    console.log("User getting measurements");
+    database.query("SELECT * FROM measurement;", function (err, rows) {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.error("Error getting measurements: " + err.stack)
+        }
+    });
+});
+
 router.use(function (request, response, next) {
     var token = request.body.token || request.headers['x-access-token'];
     if (token) {
@@ -57,17 +68,6 @@ router.use(function (request, response, next) {
     } else {
         return response.status(403).send({success: false, message: 'No token provided.'});
     }
-});
-
-router.get("/measurements", function (req, res) {
-    console.log("User getting measurements");
-    database.query("SELECT * FROM measurement;", function (err, rows) {
-        if (!err) {
-            res.json(rows);
-        } else {
-            console.error("Error getting measurements: " + err.stack)
-        }
-    });
 });
 
 router.post("/measurements", function (req, res) {
