@@ -44,9 +44,20 @@ router.post("/authenticate", function (req, res) {
     })
 });
 
-router.get("/measurements", function (req, res) {
+router.get("/website/Mauro", function (req, res) {
     console.log("User getting measurements");
-    database.query("SELECT * FROM measurement;", function (err, rows) {
+    database.query("SELECT timestamp FROM measurement JOIN person ON measurement.person_id=person.id WHERE person.name LIKE 'Mauro' ORDER BY measurement.id;", function (err, rows) {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.error("Error getting measurements: " + err.stack)
+        }
+    });
+});
+
+router.get("/website/Arthur", function (req, res) {
+    console.log("User getting measurements");
+    database.query("SELECT timestamp FROM measurement JOIN person ON measurement.person_id=person.id WHERE person.name LIKE 'Arthur' ORDER BY measurement.id;", function (err, rows) {
         if (!err) {
             res.json(rows);
         } else {
@@ -68,6 +79,17 @@ router.use(function (request, response, next) {
     } else {
         return response.status(403).send({success: false, message: 'No token provided.'});
     }
+});
+
+router.get("/measurements", function (req, res) {
+    console.log("User getting measurements");
+    database.query("SELECT * FROM measurement;", function (err, rows) {
+        if (!err) {
+            res.json(rows);
+        } else {
+            console.error("Error getting measurements: " + err.stack)
+        }
+    });
 });
 
 router.post("/measurements", function (req, res) {
