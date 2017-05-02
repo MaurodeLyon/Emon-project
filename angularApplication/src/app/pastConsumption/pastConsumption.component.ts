@@ -24,9 +24,9 @@ export class PastConsumptionComponent {
   constructor(private postsService: PostsService) {
     this.postsService.getMauroMeasurements().subscribe(posts => {
       this.mauroMeasurements = posts;
-      this.mauro12 = new HourlyLineChart(12, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
-      this.mauro24 = new HourlyLineChart(24, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
-      this.mauro48 = new HourlyLineChart(48, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
+      this.mauro12 = new HourlyLineChart(12, false, 'rgba(66,66,69,0.2)', 'rgba(66,66,69,1)');
+      this.mauro24 = new HourlyLineChart(24, false, 'rgba(66,66,69,0.2)', 'rgba(66,66,69,1)');
+      this.mauro48 = new HourlyLineChart(48, false, 'rgba(66,66,69,0.2)', 'rgba(66,66,69,1)');
 
       this.mauro12.genListData(posts);
       this.mauro24.genListData(posts);
@@ -37,9 +37,9 @@ export class PastConsumptionComponent {
       this.arthurMeasurements = posts;
 
 
-      this.arthur12 = new HourlyLineChart(12, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
-      this.arthur24 = new HourlyLineChart(24, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
-      this.arthur48 = new HourlyLineChart(48, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
+      this.arthur12 = new HourlyLineChart(12, true, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
+      this.arthur24 = new HourlyLineChart(24, true, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
+      this.arthur48 = new HourlyLineChart(48, true, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
 
       this.arthur12.genListData(posts);
       this.arthur24.genListData(posts);
@@ -68,10 +68,10 @@ class HourlyLineChart implements LineChart {
   range: any = 0;
   dialMeter: any = false;
 
-  constructor(destinedRange: number, dialMeter: boolean,backgroundColor:any,pointColor:any) {
+  constructor(destinedRange: number, dialMeter: boolean, backgroundColor: any, pointColor: any) {
     this.range = destinedRange;
     this.dialMeter = dialMeter;
-    this.lineChartColors= [
+    this.lineChartColors = [
       {
         backgroundColor: backgroundColor,
         borderColor: 'rgba(148,159,177,1)',

@@ -18,12 +18,12 @@ export class TrendComponent {
   constructor(private postsService: PostsService) {
     this.postsService.getMauroMeasurements().subscribe(posts => {
       this.mauroMeasurements = posts;
-      this.mauroTrend = new TrendLineChart(false, 4,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
+      this.mauroTrend = new TrendLineChart(false, 4, 'rgba(66,66,69,0.2)', 'rgba(66,66,69,1)');
       this.mauroTrend.genListData(posts);
     });
     this.postsService.getArthurMeasurements().subscribe(posts => {
       this.arthurMeasurements = posts;
-      this.arthurTrend = new TrendLineChart(true, 4,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
+      this.arthurTrend = new TrendLineChart(true, 4, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
       this.arthurTrend.genListData(posts);
     });
   }
@@ -49,10 +49,10 @@ class TrendLineChart implements LineChart {
   dialMeter: any = false;
   times: any = 0;
 
-  constructor(dialMeter: boolean, times: number,backgroundColor:any,pointColor:any) {
+  constructor(dialMeter: boolean, times: number, backgroundColor: any, pointColor: any) {
     this.dialMeter = dialMeter;
     this.times = times;
-    this.lineChartColors= [
+    this.lineChartColors = [
       {
         backgroundColor: backgroundColor,
         borderColor: 'rgba(148,159,177,1)',
