@@ -61,6 +61,18 @@ router.get("/website/Mauro", function (req, res) {
     });
 });
 
+router.get("/website/deltaMauro", function (req, res) {
+    console.log("User getting measurements");
+    database.query("SELECT time_to_sec(timestamp) as timestamp FROM measurement JOIN person ON person.id=measurement.person_id WHERE person.name='Mauro' ORDER BY measurement.id DESC LIMIT 2", function (err, rows) {
+        if (!err) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.json([{current_tick: rows[0].timestamp, previous_tick: rows[1].timestamp}]);
+        } else {
+            console.error("Error getting measurements: " + err.stack)
+        }
+    });
+});
+
 router.get("/website/Arthur", function (req, res) {
     console.log("User getting measurements");
     database.query("SELECT COUNT(timestamp) AS ticks, HOUR(timestamp) AS hour FROM measurement WHERE HOUR(timestamp) = HOUR((SELECT timestamp FROM measurement JOIN person ON person.id = measurement.person_id WHERE measurement.id = (SELECT  MAX(measurement.id) FROM measurement JOIN person ON person.id = measurement.person_id WHERE person.name = 'Arthur'))) AND DAY(timestamp) = DAY((SELECT timestamp FROM measurement JOIN person ON person.id = measurement.person_id WHERE measurement.id = (SELECT  MAX(measurement.id) FROM measurement JOIN person ON person.id = measurement.person_id WHERE person.name = 'Arthur'))) GROUP BY MONTH(timestamp) , DAY(timestamp) , HOUR(timestamp) ORDER BY MONTH(timestamp) , DAY(timestamp) , HOUR(timestamp);", function (err, firstQuery) {
@@ -78,6 +90,17 @@ router.get("/website/Arthur", function (req, res) {
     });
 });
 
+router.get("/website/deltaArthur", function (req, res) {
+    console.log("User getting measurements");
+    database.query("SELECT time_to_sec(timestamp) as timestamp FROM measurement JOIN person ON person.id=measurement.person_id WHERE person.name='Arthur' ORDER BY measurement.id DESC LIMIT 2", function (err, rows) {
+        if (!err) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.json([{current_tick: rows[0].timestamp, previous_tick: rows[1].timestamp}]);
+        } else {
+            console.error("Error getting measurements: " + err.stack)
+        }
+    });
+});
 router.use(function (request, response, next) {
     var token = request.body.token || request.headers['x-access-token'];
     if (token) {
