@@ -164,7 +164,7 @@ bool sendPulse(){
   client.println(userInformation); 
   
   String result;
-  delay(100);
+  delay(500);
   if ( client.available() ) {
     result = client.readString();
   }
@@ -187,6 +187,7 @@ bool requestToken(){
     SmState = CONNECTING_TO_WIFI;
     return false;
   }
+  Serial.println("Connected to WiFi");
   
   if (client.connect(http_site, http_port) ) {
     client.println("POST /api/authenticate HTTP/1.1");
@@ -199,9 +200,10 @@ bool requestToken(){
     client.println();
     client.println(userCredentials);
   }
-  
+  Serial.println("Posted credentials");
   String result;
-  delay(100);
+  delay(500);
+  
   if ( client.available() ) {
     result = client.readString();
   }
