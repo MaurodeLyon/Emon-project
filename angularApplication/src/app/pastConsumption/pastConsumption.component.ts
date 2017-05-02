@@ -1,17 +1,17 @@
 import {Component} from '@angular/core';
 import {PostsService} from '../services/posts.service';
+import {Data} from '../services/Data';
 import {LineChart} from '../charts/LineChart';
-import {Measurement} from '../services/Data';
 
 @Component({
   selector: 'app-past-consumption',
   templateUrl: 'pastConsumption.component.html',
   providers: [PostsService]
-})
 
+})
 export class PastConsumptionComponent {
-  mauroMeasurements: Measurement;
-  arthurMeasurements: Measurement;
+  mauroMeasurements: Data;
+  arthurMeasurements: Data;
 
   mauro12: HourlyLineChart;
   mauro24: HourlyLineChart;
@@ -24,31 +24,27 @@ export class PastConsumptionComponent {
   constructor(private postsService: PostsService) {
     this.postsService.getMauroMeasurements().subscribe(posts => {
       this.mauroMeasurements = posts;
-      console.log(this.mauroMeasurements);
+      this.mauro12 = new HourlyLineChart(12, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
+      this.mauro24 = new HourlyLineChart(24, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
+      this.mauro48 = new HourlyLineChart(48, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
+
+      this.mauro12.genListData(posts);
+      this.mauro24.genListData(posts);
+      this.mauro48.genListData(posts);
     });
-    /* this.postsService.getMeasurements().subscribe(posts => {
-     this.mauroMeasurements = posts;
-     this.mauro12 = new HourlyLineChart(12, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
-     this.mauro24 = new HourlyLineChart(24, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
-     this.mauro48 = new HourlyLineChart(48, false,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
 
-     this.mauro12.genListData(posts);
-     this.mauro24.genListData(posts);
-     this.mauro48.genListData(posts);
-     });
-
-     this.postsService.getMeasurements().subscribe(posts => {
-     this.arthurMeasurements = posts;
+    this.postsService.getArthurMeasurements().subscribe(posts => {
+      this.arthurMeasurements = posts;
 
 
-     this.arthur12 = new HourlyLineChart(12, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
-     this.arthur24 = new HourlyLineChart(24, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
-     this.arthur48 = new HourlyLineChart(48, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
+      this.arthur12 = new HourlyLineChart(12, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
+      this.arthur24 = new HourlyLineChart(24, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
+      this.arthur48 = new HourlyLineChart(48, true,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
 
-     this.arthur12.genListData(posts);
-     this.arthur24.genListData(posts);
-     this.arthur48.genListData(posts);
-     });*/
+      this.arthur12.genListData(posts);
+      this.arthur24.genListData(posts);
+      this.arthur48.genListData(posts);
+    });
   }
 }
 
@@ -72,10 +68,10 @@ class HourlyLineChart implements LineChart {
   range: any = 0;
   dialMeter: any = false;
 
-  constructor(destinedRange: number, dialMeter: boolean, backgroundColor: any, pointColor: any) {
+  constructor(destinedRange: number, dialMeter: boolean,backgroundColor:any,pointColor:any) {
     this.range = destinedRange;
     this.dialMeter = dialMeter;
-    this.lineChartColors = [
+    this.lineChartColors= [
       {
         backgroundColor: backgroundColor,
         borderColor: 'rgba(148,159,177,1)',
@@ -86,23 +82,23 @@ class HourlyLineChart implements LineChart {
       }];
   }
 
-  /*public genListData(values: Measurement): void {
-   if (values != null) {
-   const length = values.results.length;
-   for (let i = this.range; i > 1; i--) {
-   if (this.dialMeter) {
-   let val = values.results[length - i].ticks;
-   val = val / 187.5;
-   val = val * 1000;
-   this.lineChartData[0].data.push(val);
-   } else {
-   this.lineChartData[0].data.push(values.results[length - i].ticks);
-   }
+  public genListData(values: Data): void {
+    if (values != null) {
+      const length = values.results.length;
+      for (let i = this.range; i > 1; i--) {
+        if (this.dialMeter) {
+          let val = values.results[length - i].ticks;
+          val = val / 187.5;
+          val = val * 1000;
+          this.lineChartData[0].data.push(val);
+        } else {
+          this.lineChartData[0].data.push(values.results[length - i].ticks);
+        }
 
-   this.lineChartLabels.push(values.results[length - i].hour);
-   }
-   }
-   }*/
+        this.lineChartLabels.push(values.results[length - i].hour);
+      }
+    }
+  }
 
   chartClicked(e: any): void {
   }

@@ -15,4 +15,12 @@ export class PostsService {
   getArthurMeasurements() {
     return this.http.get('http://84.105.252.233:8080/api/website/Arthur').map(res => res.json());
   }
+
+  getMauroDelta() {
+    return this.http.get('http://84.105.252.233:8080/api/website/deltaMauro').map(res => res.json());
+  }
+
+  getArthurDelta() {
+    return this.http.get('http://84.105.252.233:8080/api/website/deltaArthur').map(res => res.json());
+  }
 }

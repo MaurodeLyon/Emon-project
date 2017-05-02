@@ -22,13 +22,10 @@ export class CurrentConsumptionComponent {
   arthurCurrentUsage: number;
 
   constructor(private postsService: PostsService) {
-    /*this.postsService.getMauroDelta().subscribe(posts => {
+    this.postsService.getMauroDelta().subscribe(posts => {
       this.mauroPieChart = new UsagePieChart();
-      const prevTimeArr = posts[0].current_tick.split('T')[1].split('.')[0].split(':');
-      const currTimeArr = posts[0].previous_tick.split('T')[1].split('.')[0].split(':');
-
-      this.mauroPreviousTime = +(prevTimeArr[0] * 60 * 60) + +(prevTimeArr[1] * 60) + +(prevTimeArr[2]);
-      this.mauroCurrentTime = +(currTimeArr[0] * 60 * 60) + +(currTimeArr[1] * 60) + +(currTimeArr[2]);
+      this.mauroPreviousTime = posts.current_tick;
+      this.mauroCurrentTime = posts.previous_tick;
 
       this.mauroDeltaTime = this.mauroPreviousTime - this.mauroCurrentTime;
       this.mauroCurrentUsage = Math.floor(3600 / this.mauroDeltaTime);
@@ -39,18 +36,15 @@ export class CurrentConsumptionComponent {
 
     this.postsService.getArthurDelta().subscribe(posts => {
       this.arthurPieChart = new UsagePieChart();
-      const prevTimeArr = posts[0].current_tick.split('T')[1].split('.')[0].split(':');
-      const currTimeArr = posts[0].previous_tick.split('T')[1].split('.')[0].split(':');
-
-      this.arthurPreviousTime = +(prevTimeArr[0] * 60 * 60) + +(prevTimeArr[1] * 60) + +(prevTimeArr[2]);
-      this.arthurCurrentTime = +(currTimeArr[0] * 60 * 60) + +(currTimeArr[1] * 60) + +(currTimeArr[2]);
+      this.arthurPreviousTime = posts.current_tick;
+      this.arthurCurrentTime = posts.previous_tick;
 
       this.arthurDeltaTime = this.arthurPreviousTime - this.arthurCurrentTime;
       this.arthurCurrentUsage = Math.floor(3600 / this.arthurDeltaTime);
 
       const scale = 3600 - +this.arthurCurrentUsage;
       this.arthurPieChart.pieChartData = [this.arthurCurrentUsage, scale];
-    });*/
+    });
   }
 }
 

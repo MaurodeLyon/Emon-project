@@ -1,8 +1,19 @@
-export interface Measurement {
-  timestamp: string;
+export class Data {
+  currentData: CurrentData;
+  results: Results[];
 }
 
-export interface Data{
+export interface CurrentData {
   ticks: number;
   hour: number;
 }
+
+export interface Results {
+  id: number;
+  ticks: number;
+  hour: number;
+  day: number;
+  month: number;
+  year: number;
+}
+

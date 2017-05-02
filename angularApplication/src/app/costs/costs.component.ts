@@ -13,7 +13,7 @@ export class CostsComponent {
   arthurBarChart: CostBarChart;
 
   constructor(private postsService: PostsService) {
-   /* this.postsService.getMauroMeasurements().subscribe(posts => {
+    this.postsService.getMauroMeasurements().subscribe(posts => {
       this.mauroBarChart = new CostBarChart();
       const price = [];
       const date = [];
@@ -53,7 +53,7 @@ export class CostsComponent {
       }
       this.arthurBarChart.barChartData[0].data = price;
       this.arthurBarChart.barChartLabels = date;
-    });*/
+    });
   }
 }
 

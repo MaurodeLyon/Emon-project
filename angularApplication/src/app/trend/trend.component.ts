@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {PostsService} from '../services/posts.service';
-import {Measurement} from '../services/Data';
+import {Data} from '../services/Data';
 import {LineChart} from '../charts/LineChart';
 
 @Component({
@@ -9,14 +9,14 @@ import {LineChart} from '../charts/LineChart';
   providers: [PostsService]
 })
 export class TrendComponent {
-  mauroMeasurements: Measurement;
-  arthurMeasurements: Measurement;
+  mauroMeasurements: Data;
+  arthurMeasurements: Data;
 
   mauroTrend: TrendLineChart;
   arthurTrend: TrendLineChart;
 
   constructor(private postsService: PostsService) {
-    /*this.postsService.getMauroMeasurements().subscribe(posts => {
+    this.postsService.getMauroMeasurements().subscribe(posts => {
       this.mauroMeasurements = posts;
       this.mauroTrend = new TrendLineChart(false, 4,'rgba(66,66,69,0.2)','rgba(66,66,69,1)');
       this.mauroTrend.genListData(posts);
@@ -25,7 +25,7 @@ export class TrendComponent {
       this.arthurMeasurements = posts;
       this.arthurTrend = new TrendLineChart(true, 4,'rgba(153, 210, 246,0.2)','rgba(153, 210, 246,1)');
       this.arthurTrend.genListData(posts);
-    });*/
+    });
   }
 }
 class TrendLineChart implements LineChart {
@@ -63,7 +63,7 @@ class TrendLineChart implements LineChart {
       }];
   }
 
-  /*public genListData(values: Data): void {
+  public genListData(values: Data): void {
     if (values != null) {
       const length = values.results.length;
       for (let i = 24; i > 0; i--) {
@@ -87,7 +87,7 @@ class TrendLineChart implements LineChart {
         average = 0;
       }
     }
-  }*/
+  }
 
   chartClicked(e: any): void {
   }
