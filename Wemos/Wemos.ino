@@ -164,10 +164,11 @@ bool sendPulse(){
   client.println(userInformation); 
   
   String result;
-  delay(500);
-  if ( client.available() ) {
-    result = client.readString();
+  while(!client.available()){
+    delay(1);
   }
+  
+  result = client.readString();
   result.remove(0,result.indexOf('{'));
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(result);
@@ -196,17 +197,17 @@ bool requestToken(){
     client.println("Content-Type: application/x-www-form-urlencoded");
     client.println("Connection: close");
     client.print("Content-Length: ");
-    client.println(userCredentials.length());
+    client.println(userCredentials.length()); 
     client.println();
     client.println(userCredentials);
   }
   Serial.println("Posted credentials");
   String result;
-  delay(500);
   
-  if ( client.available() ) {
-    result = client.readString();
-  }
+  while(!client.available()){
+    delay(1);
+  }  
+  result = client.readString();
   result.remove(0,result.indexOf('{'));
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(result);
