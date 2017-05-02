@@ -66,7 +66,7 @@ router.get("/website/deltaMauro", function (req, res) {
     database.query("SELECT time_to_sec(timestamp) as timestamp FROM measurement JOIN person ON person.id=measurement.person_id WHERE person.name='Mauro' ORDER BY measurement.id DESC LIMIT 2", function (err, rows) {
         if (!err) {
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.json([{current_tick: rows[0].timestamp, previous_tick: rows[1].timestamp}]);
+            res.json({current_tick: rows[0].timestamp, previous_tick: rows[1].timestamp});
         } else {
             console.error("Error getting measurements: " + err.stack)
         }
@@ -95,7 +95,7 @@ router.get("/website/deltaArthur", function (req, res) {
     database.query("SELECT time_to_sec(timestamp) as timestamp FROM measurement JOIN person ON person.id=measurement.person_id WHERE person.name='Arthur' ORDER BY measurement.id DESC LIMIT 2", function (err, rows) {
         if (!err) {
             res.setHeader("Access-Control-Allow-Origin", "*");
-            res.json([{current_tick: rows[0].timestamp, previous_tick: rows[1].timestamp}]);
+            res.json({current_tick: rows[0].timestamp, previous_tick: rows[1].timestamp});
         } else {
             console.error("Error getting measurements: " + err.stack)
         }
