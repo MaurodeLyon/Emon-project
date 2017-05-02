@@ -46,25 +46,35 @@ router.post("/authenticate", function (req, res) {
 
 router.get("/website/Mauro", function (req, res) {
     console.log("User getting measurements");
-    database.query("SELECT timestamp FROM measurement JOIN person ON measurement.person_id=person.id WHERE person.name LIKE 'Mauro' ORDER BY measurement.id;", function (err, rows) {
-        if (!err) {
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.json(rows);
-        } else {
-            console.error("Error getting measurements: " + err.stack)
-        }
+    database.query("SELECT COUNT(timestamp) AS ticks, HOUR(timestamp) AS hour FROM measurement WHERE HOUR(timestamp) = HOUR((SELECT timestamp FROM measurement JOIN person ON person.id = measurement.person_id WHERE measurement.id = (SELECT  MAX(measurement.id) FROM measurement JOIN person ON person.id = measurement.person_id WHERE person.name = 'Mauro'))) AND DAY(timestamp) = DAY((SELECT timestamp FROM measurement JOIN person ON person.id = measurement.person_id WHERE measurement.id = (SELECT  MAX(measurement.id) FROM measurement JOIN person ON person.id = measurement.person_id WHERE person.name = 'Mauro'))) GROUP BY MONTH(timestamp) , DAY(timestamp) , HOUR(timestamp) ORDER BY MONTH(timestamp) , DAY(timestamp) , HOUR(timestamp);", function (err, firstQuery) {
+        database.query("SELECT measurement.id,COUNT(timestamp) as ticks, hour(timestamp) as hour, day(timestamp) as day, month(timestamp) as month, year(timestamp) as year FROM measurement JOIN person ON person.id=measurement.person_id WHERE person.name='Mauro' GROUP BY month(timestamp),day(timestamp),hour(timestamp) ORDER BY month(timestamp),day(timestamp),hour(timestamp);", function (err, secondQuery) {
+            if (!err) {
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.json({
+                    currentData: firstQuery[0],
+                    results: secondQuery
+                });
+            } else {
+                console.error("Error getting measurements: " + err.stack)
+            }
+        });
     });
 });
 
 router.get("/website/Arthur", function (req, res) {
     console.log("User getting measurements");
-    database.query("SELECT timestamp FROM measurement JOIN person ON measurement.person_id=person.id WHERE person.name LIKE 'Arthur' ORDER BY measurement.id;", function (err, rows) {
-        if (!err) {
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.json(rows);
-        } else {
-            console.error("Error getting measurements: " + err.stack)
-        }
+    database.query("SELECT COUNT(timestamp) AS ticks, HOUR(timestamp) AS hour FROM measurement WHERE HOUR(timestamp) = HOUR((SELECT timestamp FROM measurement JOIN person ON person.id = measurement.person_id WHERE measurement.id = (SELECT  MAX(measurement.id) FROM measurement JOIN person ON person.id = measurement.person_id WHERE person.name = 'Arthur'))) AND DAY(timestamp) = DAY((SELECT timestamp FROM measurement JOIN person ON person.id = measurement.person_id WHERE measurement.id = (SELECT  MAX(measurement.id) FROM measurement JOIN person ON person.id = measurement.person_id WHERE person.name = 'Arthur'))) GROUP BY MONTH(timestamp) , DAY(timestamp) , HOUR(timestamp) ORDER BY MONTH(timestamp) , DAY(timestamp) , HOUR(timestamp);", function (err, firstQuery) {
+        database.query("SELECT measurement.id,COUNT(timestamp) as ticks, hour(timestamp) as hour, day(timestamp) as day, month(timestamp) as month, year(timestamp) as year FROM measurement JOIN person ON person.id=measurement.person_id WHERE person.name='Arthur' GROUP BY month(timestamp),day(timestamp),hour(timestamp) ORDER BY month(timestamp),day(timestamp),hour(timestamp);", function (err, secondQuery) {
+            if (!err) {
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.json({
+                    currentData: firstQuery[0],
+                    results: secondQuery
+                });
+            } else {
+                console.error("Error getting measurements: " + err.stack)
+            }
+        });
     });
 });
 
