@@ -145,7 +145,8 @@ bool sendPulse(){
   }
   Serial.println("Connected to WiFi.");
   if (!client.connect(http_site, http_port) ) {
-    Serial.println("Could not connect to website");
+    Serial.println("Could not connect to website.");    
+    SmState = CONNECTING_TO_WIFI;
     return false;
   }
   Serial.println("Connected to website.");
@@ -164,11 +165,10 @@ bool sendPulse(){
   client.println(userInformation); 
   
   String result;
-  while(!client.available()){
-    delay(1);
+  delay(250);
+  if ( client.available() ) {
+    result = client.readString();
   }
-  
-  result = client.readString();
   result.remove(0,result.indexOf('{'));
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(result);
@@ -188,7 +188,6 @@ bool requestToken(){
     SmState = CONNECTING_TO_WIFI;
     return false;
   }
-  Serial.println("Connected to WiFi");
   
   if (client.connect(http_site, http_port) ) {
     client.println("POST /api/authenticate HTTP/1.1");
@@ -197,17 +196,16 @@ bool requestToken(){
     client.println("Content-Type: application/x-www-form-urlencoded");
     client.println("Connection: close");
     client.print("Content-Length: ");
-    client.println(userCredentials.length()); 
+    client.println(userCredentials.length());
     client.println();
     client.println(userCredentials);
   }
-  Serial.println("Posted credentials");
-  String result;
   
-  while(!client.available()){
-    delay(1);
-  }  
-  result = client.readString();
+  String result;
+  delay(250);
+  if ( client.available() ) {
+    result = client.readString();
+  }
   result.remove(0,result.indexOf('{'));
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(result);
