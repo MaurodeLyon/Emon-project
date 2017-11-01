@@ -7,8 +7,8 @@ var mongoose = require('mongoose');
 var port = 8080;
 var key = "secret key";
 
-var Person = require('./person');
-var Measurement = require('./measurement');
+var Person = require('./model/person');
+var Measurement = require('./model/measurement');
 var options = {
     useMongoClient: true,
     autoIndex: false,
@@ -23,6 +23,78 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 var router = express.Router();
+
+router.get("/website/ticks", function (req, res) {
+    console.log("User getting measurements");
+    Measurement.aggregate([
+        {
+            $group: {
+                _id: {
+                    year: {$year: "$timestamp"},
+                    month: {$month: "$timestamp"},
+                    day: {$dayOfMonth: "$timestamp"},
+                    hour: {$hour: "$timestamp"}
+                },
+                ticks: {$sum: 1}
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                ticks: 1,
+                hour: "$_id.hour",
+                day: "$_id.day",
+                month: "$_id.month",
+                year: "$_id.year"
+
+            }
+        },
+        {
+            $sort: {
+                "year": 1,
+                "month": 1,
+                "day": 1,
+                "hour": 1
+            }
+        }
+    ], function (err, result) {
+        if (!err) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.json(result);
+        } else {
+            console.error("Error website ticks: " + err.stack);
+        }
+    });
+});
+
+router.get("/website/delta", function (req, res) {
+    console.log("User getting delta");
+    Measurement.aggregate([
+        {
+            $sort: {timestamp: -1}
+        },
+        {
+            $project: {
+                _id: 0,
+                hour: {"$hour": "$timestamp"},
+                minute: {"$minute": "$timestamp"},
+                second: {"$second": "$timestamp"}
+            }
+        },
+        {
+            $limit: 2
+        }
+    ], function (err, result) {
+        var currentTick = result[0].hour * 60 * 60 + result[0].minute * 60 + result[0].second;
+        var previousTick = result[1].hour * 60 * 60 + result[1].minute * 60 + result[1].second;
+        if (!err) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.json({current_tick: currentTick, previous_tick: previousTick});
+        } else {
+            console.error("Error website delta: " + err.stack);
+        }
+    });
+});
 
 router.post("/authenticate", function (req, res) {
     console.log("User requesting authentication: " + req.body.name);
