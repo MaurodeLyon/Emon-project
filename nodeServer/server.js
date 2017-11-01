@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 var router = express.Router();
 
 router.get("/website/ticks", function (req, res) {
-    console.log("User getting measurements");
+    console.log(new Date() + " - User getting measurements");
     Measurement.aggregate([
         {
             $group: {
@@ -68,7 +68,7 @@ router.get("/website/ticks", function (req, res) {
 });
 
 router.get("/website/delta", function (req, res) {
-    console.log("User getting delta");
+    console.log(new Date() + " - User getting delta");
     Measurement.aggregate([
         {
             $sort: {timestamp: -1}
@@ -97,7 +97,7 @@ router.get("/website/delta", function (req, res) {
 });
 
 router.post("/authenticate", function (req, res) {
-    console.log("User requesting authentication: " + req.body.name);
+    console.log(new Date() + " - User requesting authentication: " + req.body.name);
     Person.find({name: req.body.name, password: req.body.password}, function (err, persons) {
         if (persons.length === 1) {
             var token = jwt.sign(req.body, key, {
@@ -128,7 +128,7 @@ router.use(function (request, response, next) {
 });
 
 router.get("/measurements", function (req, res) {
-    console.log("User getting measurements");
+    console.log(new Date() + " - User getting measurements");
     Measurement.find(function (err, measurements) {
         if (err) {
             console.error("Error getting measurements: " + err.stack)
@@ -140,7 +140,7 @@ router.get("/measurements", function (req, res) {
 });
 
 router.post("/measurements", function (req, res) {
-    console.log("User ping received: " + req.body.name);
+    console.log(new Date() + " - User ping received: " + req.body.name);
     var measurement = new Measurement();
     measurement.timestamp = new Date();
     measurement.save(function (err) {
