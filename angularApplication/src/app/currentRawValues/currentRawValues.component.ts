@@ -10,23 +10,8 @@ import {LineChart} from '../charts/LineChart';
 })
 export class CurrentRawValuesComponent {
   mauroLineChart: RawValuesLineChart;
-  arthurLineChart: RawValuesLineChart;
 
   constructor(private postsService: PostsService) {
-    this.postsService.getArthurMeasurements().subscribe(posts => {
-      this.arthurLineChart = new RawValuesLineChart('rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
-      this.arthurLineChart.lineChartLabels = [];
-      this.arthurLineChart.lineChartData = [
-        {label: 'Raw tick data per hour', data: []}
-      ];
-      if (posts != null) {
-        const length = posts.results.length;
-        for (let i = 13; i > 2; i--) {
-          this.arthurLineChart.lineChartData[0].data.push(posts.results[length - i].ticks);
-          this.arthurLineChart.lineChartLabels.push(posts.results[length - i].hour);
-        }
-      }
-    });
     this.postsService.getMauroMeasurements().subscribe(posts => {
       this.mauroLineChart = new RawValuesLineChart('rgba(66,66,69,0.2)', 'rgba(66,66,69,1)');
       this.mauroLineChart.lineChartLabels = [];
@@ -34,10 +19,10 @@ export class CurrentRawValuesComponent {
         {label: 'Raw tick data per hour', data: []}
       ];
       if (posts != null) {
-        const length = posts.results.length;
-        for (let i = 12; i > 1; i--) {
-          this.mauroLineChart.lineChartData[0].data.push(posts.results[length - i].ticks);
-          this.mauroLineChart.lineChartLabels.push(posts.results[length - i].hour);
+        const length = posts.length;
+        for (let i = 20; i > 1; i--) {
+          this.mauroLineChart.lineChartData[0].data.push(posts[length - i].ticks);
+          this.mauroLineChart.lineChartLabels.push(posts[length - i].hour);
         }
       }
     });

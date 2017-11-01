@@ -1,5 +1,5 @@
 <h1>Trend</h1>
-<div class="col-xs-6" style="display: block" *ngIf="mauroTrend">
+<div class="col-xs-12" style="display: block" *ngIf="mauroTrend">
   <h3>Mauro: 24 hour prediction</h3>
   <canvas baseChart
           [datasets]="mauroTrend.lineChartData"
@@ -10,18 +10,5 @@
           [chartType]="mauroTrend.lineChartType"
           (chartHover)="mauroTrend.chartHovered($event)"
           (chartClick)="mauroTrend.chartClicked($event)">
-  </canvas>
-</div>
-<div class="col-xs-6" style="display: block" *ngIf="arthurTrend">
-  <h3>Arthur: 24 hour prediction</h3>
-  <canvas baseChart
-          [datasets]="arthurTrend.lineChartData"
-          [labels]="arthurTrend.lineChartLabels"
-          [options]="arthurTrend.lineChartOptions"
-          [colors]="arthurTrend.lineChartColors"
-          [legend]="arthurTrend.lineChartLegend"
-          [chartType]="arthurTrend.lineChartType"
-          (chartHover)="arthurTrend.chartHovered($event)"
-          (chartClick)="arthurTrend.chartClicked($event)">
   </canvas>
 </div>

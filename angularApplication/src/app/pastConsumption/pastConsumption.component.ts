@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {PostsService} from '../services/posts.service';
-import {Data} from '../services/Data';
+import {Measurement} from '../services/Data';
 import {LineChart} from '../charts/LineChart';
 
 @Component({
@@ -10,16 +10,10 @@ import {LineChart} from '../charts/LineChart';
 
 })
 export class PastConsumptionComponent {
-  mauroMeasurements: Data;
-  arthurMeasurements: Data;
-
+  mauroMeasurements: Measurement;
   mauro12: HourlyLineChart;
   mauro24: HourlyLineChart;
   mauro48: HourlyLineChart;
-
-  arthur12: HourlyLineChart;
-  arthur24: HourlyLineChart;
-  arthur48: HourlyLineChart;
 
   constructor(private postsService: PostsService) {
     this.postsService.getMauroMeasurements().subscribe(posts => {
@@ -31,19 +25,6 @@ export class PastConsumptionComponent {
       this.mauro12.genListData(posts);
       this.mauro24.genListData(posts);
       this.mauro48.genListData(posts);
-    });
-
-    this.postsService.getArthurMeasurements().subscribe(posts => {
-      this.arthurMeasurements = posts;
-
-
-      this.arthur12 = new HourlyLineChart(12, true, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
-      this.arthur24 = new HourlyLineChart(24, true, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
-      this.arthur48 = new HourlyLineChart(48, true, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
-
-      this.arthur12.genListData(posts);
-      this.arthur24.genListData(posts);
-      this.arthur48.genListData(posts);
     });
   }
 }
@@ -82,20 +63,20 @@ class HourlyLineChart implements LineChart {
       }];
   }
 
-  public genListData(values: Data): void {
+  public genListData(values: Measurement[]): void {
     if (values != null) {
-      const length = values.results.length;
+      const length = values.length;
       for (let i = this.range; i > 1; i--) {
         if (this.dialMeter) {
-          let val = values.results[length - i].ticks;
+          let val = values[length - i].ticks;
           val = val / 187.5;
           val = val * 1000;
           this.lineChartData[0].data.push(val);
         } else {
-          this.lineChartData[0].data.push(values.results[length - i].ticks);
+          this.lineChartData[0].data.push(values[length - i].ticks);
         }
 
-        this.lineChartLabels.push(values.results[length - i].hour);
+        this.lineChartLabels.push(values[length - i].hour);
       }
     }
   }

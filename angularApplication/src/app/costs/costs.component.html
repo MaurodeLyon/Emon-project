@@ -1,4 +1,4 @@
-<div class="col-xs-6" style="display: block" *ngIf="mauroBarChart">
+<div class="col-xs-12" style="display: block" *ngIf="mauroBarChart">
   <h1>Costs Mauro</h1>
   <canvas baseChart
           [datasets]="mauroBarChart.barChartData"
@@ -8,16 +8,4 @@
           [chartType]="mauroBarChart.barChartType"
           (chartHover)="mauroBarChart.chartHovered($event)"
           (chartClick)="mauroBarChart.chartClicked($event)"></canvas>
-</div>
-
-<div class="col-xs-6" style="display: block" *ngIf="arthurBarChart">
-  <h1>Costs Arthur</h1>
-  <canvas baseChart
-          [datasets]="arthurBarChart.barChartData"
-          [labels]="arthurBarChart.barChartLabels"
-          [options]="arthurBarChart.barChartOptions"
-          [legend]="arthurBarChart.barChartLegend"
-          [chartType]="arthurBarChart.barChartType"
-          (chartHover)="arthurBarChart.chartHovered($event)"
-          (chartClick)="arthurBarChart.chartClicked($event)"></canvas>
 </div>

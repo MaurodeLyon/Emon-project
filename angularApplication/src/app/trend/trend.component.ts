@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {PostsService} from '../services/posts.service';
-import {Data} from '../services/Data';
+import {Measurement} from '../services/Data';
 import {LineChart} from '../charts/LineChart';
 
 @Component({
@@ -9,22 +9,15 @@ import {LineChart} from '../charts/LineChart';
   providers: [PostsService]
 })
 export class TrendComponent {
-  mauroMeasurements: Data;
-  arthurMeasurements: Data;
+  mauroMeasurements: Measurement[];
 
   mauroTrend: TrendLineChart;
-  arthurTrend: TrendLineChart;
 
   constructor(private postsService: PostsService) {
     this.postsService.getMauroMeasurements().subscribe(posts => {
       this.mauroMeasurements = posts;
       this.mauroTrend = new TrendLineChart(false, 4, 'rgba(66,66,69,0.2)', 'rgba(66,66,69,1)');
       this.mauroTrend.genListData(posts);
-    });
-    this.postsService.getArthurMeasurements().subscribe(posts => {
-      this.arthurMeasurements = posts;
-      this.arthurTrend = new TrendLineChart(true, 4, 'rgba(153, 210, 246,0.2)', 'rgba(153, 210, 246,1)');
-      this.arthurTrend.genListData(posts);
     });
   }
 }
@@ -63,26 +56,26 @@ class TrendLineChart implements LineChart {
       }];
   }
 
-  public genListData(values: Data): void {
+  public genListData(values: Measurement[]): void {
     if (values != null) {
-      const length = values.results.length;
+      const length = values.length;
       for (let i = 24; i > 0; i--) {
         let total = 0;
         let average = 0;
         for (let j = 0; j < this.times; j++) {
           if (this.dialMeter) {
-            let val = values.results[length - 1 - i - (j * 24)].ticks;
+            let val = values[length - 1 - i - (j * 24)].ticks;
             val = val / 187.5;
             val = val * 1000;
             total += val;
           } else {
-            total += values.results[length - 1 - i - (j * 24)].ticks;
+            total += values[length - 1 - i - (j * 24)].ticks;
           }
         }
 
         average = total / this.times;
         this.lineChartData[0].data.push(average);
-        this.lineChartLabels.push((values.results[length - 1].hour + (24 - i)) % 24 + 1);
+        this.lineChartLabels.push((values[length - 1].hour + (24 - i)) % 24 + 1);
         total = 0;
         average = 0;
       }

@@ -12,20 +12,6 @@
           (chartClick)="mauro12.chartClicked($event)">
   </canvas>
 </div>
-<div class="col-xs-6" style="display: block" *ngIf="arthur12">
-  <h3>Arthur: Last 12 hours</h3>
-  <canvas baseChart
-          [datasets]="arthur12.lineChartData"
-          [labels]="arthur12.lineChartLabels"
-          [options]="arthur12.lineChartOptions"
-          [colors]="arthur12.lineChartColors"
-          [legend]="arthur12.lineChartLegend"
-          [chartType]="arthur12.lineChartType"
-          (chartHover)="arthur12.chartHovered($event)"
-          (chartClick)="arthur12.chartClicked($event)">
-  </canvas>
-</div>
-
 <div class="col-xs-6" style="display: block" *ngIf="mauro24">
   <h3>Mauro: Last 24 hours</h3>
   <canvas baseChart
@@ -39,21 +25,7 @@
           (chartClick)="mauro24.chartClicked($event)">
   </canvas>
 </div>
-<div class="col-xs-6" style="display: block" *ngIf="arthur24">
-  <h3>Arthur: Last 24 hours</h3>
-  <canvas baseChart
-          [datasets]="arthur24.lineChartData"
-          [labels]="arthur24.lineChartLabels"
-          [options]="arthur24.lineChartOptions"
-          [colors]="arthur24.lineChartColors"
-          [legend]="arthur24.lineChartLegend"
-          [chartType]="arthur24.lineChartType"
-          (chartHover)="arthur24.chartHovered($event)"
-          (chartClick)="arthur24.chartClicked($event)">
-  </canvas>
-</div>
-
-<div class="col-xs-6" style="display: block" *ngIf="mauro48">
+<div class="col-xs-12" style="display: block" *ngIf="mauro48">
   <h3>Mauro: Last 48 hours</h3>
   <canvas baseChart
           [datasets]="mauro48.lineChartData"
@@ -64,18 +36,5 @@
           [chartType]="mauro48.lineChartType"
           (chartHover)="mauro48.chartHovered($event)"
           (chartClick)="mauro48.chartClicked($event)">
-  </canvas>
-</div>
-<div class="col-xs-6" style="display: block" *ngIf="arthur48">
-  <h3>Arthur: Last 48 hours</h3>
-  <canvas baseChart
-          [datasets]="arthur48.lineChartData"
-          [labels]="arthur48.lineChartLabels"
-          [options]="arthur48.lineChartOptions"
-          [colors]="arthur48.lineChartColors"
-          [legend]="arthur48.lineChartLegend"
-          [chartType]="arthur48.lineChartType"
-          (chartHover)="arthur48.chartHovered($event)"
-          (chartClick)="arthur48.chartClicked($event)">
   </canvas>
 </div>

@@ -1,6 +1,6 @@
 <script src="node_modules/chart.js/src/chart.js"></script>
 <h1>Raw Data (in ticks)</h1>
-<div class="col-xs-6" style="display: block" *ngIf="mauroLineChart">
+<div class="col-xs-12" style="display: block" *ngIf="mauroLineChart">
   <h3>Last 12 hours : Mauro</h3>
   <canvas baseChart
           [datasets]="mauroLineChart.lineChartData"
@@ -11,20 +11,6 @@
           [chartType]="mauroLineChart.lineChartType"
           (chartHover)="mauroLineChart.chartHovered($event)"
           (chartClick)="mauroLineChart.chartClicked($event)">
-
-  </canvas>
-</div>
-<div class="col-xs-6" style="display: block" *ngIf="arthurLineChart">
-  <h3>Last 12 hours : Arthur</h3>
-  <canvas baseChart
-          [datasets]="arthurLineChart.lineChartData"
-          [labels]="arthurLineChart.lineChartLabels"
-          [options]="arthurLineChart.lineChartOptions"
-          [colors]="arthurLineChart.lineChartColors"
-          [legend]="arthurLineChart.lineChartLegend"
-          [chartType]="arthurLineChart.lineChartType"
-          (chartHover)="arthurLineChart.chartHovered($event)"
-          (chartClick)="arthurLineChart.chartClicked($event)">
 
   </canvas>
 </div>

@@ -10,7 +10,6 @@ import {BarChart} from '../charts/BarChart';
 
 export class CostsComponent {
   mauroBarChart: CostBarChart;
-  arthurBarChart: CostBarChart;
 
   constructor(private postsService: PostsService) {
     this.postsService.getMauroMeasurements().subscribe(posts => {
@@ -18,41 +17,20 @@ export class CostsComponent {
       const price = [];
       const date = [];
       let ticksPerDay = 0;
-      let prevDay = posts.results[0].day;
-      for (let i = 0; i < posts.results.length; i++) {
-        const currentDay = posts.results[i].day;
+      let prevDay = posts[0].day;
+      for (let i = 0; i < posts.length; i++) {
+        const currentDay = posts[i].day;
         if (currentDay === prevDay) {
-          ticksPerDay += posts.results[i].ticks;
+          ticksPerDay += posts[i].ticks;
         } else {
           price.push(ticksPerDay * 0.00023);
-          date.push(posts.results[i].day + '-' + posts.results[i].month);
+          date.push(posts[i].day + '-' + posts[i].month);
           ticksPerDay = 0;
         }
         prevDay = currentDay;
       }
       this.mauroBarChart.barChartData[0].data = price;
       this.mauroBarChart.barChartLabels = date;
-    });
-
-    this.postsService.getArthurMeasurements().subscribe(posts => {
-      this.arthurBarChart = new CostBarChart();
-      const price = [];
-      const date = [];
-      let ticksPerDay = 0;
-      let prevDay = posts.results[0].day;
-      for (let i = 0; i < posts.results.length; i++) {
-        const currentDay = posts.results[i].day;
-        if (currentDay === prevDay) {
-          ticksPerDay += (posts.results[i].ticks / 187.5) * 1000;
-        } else {
-          price.push(ticksPerDay * 0.00023);
-          date.push(posts.results[i].day + '-' + posts.results[i].month);
-          ticksPerDay = 0;
-        }
-        prevDay = currentDay;
-      }
-      this.arthurBarChart.barChartData[0].data = price;
-      this.arthurBarChart.barChartLabels = date;
     });
   }
 }

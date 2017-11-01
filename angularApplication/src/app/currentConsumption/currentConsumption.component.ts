@@ -15,12 +15,6 @@ export class CurrentConsumptionComponent {
   mauroDeltaTime: number;
   mauroCurrentUsage: number;
 
-  arthurPieChart: UsagePieChart;
-  arthurPreviousTime: number;
-  arthurCurrentTime: number;
-  arthurDeltaTime: number;
-  arthurCurrentUsage: number;
-
   constructor(private postsService: PostsService) {
     this.postsService.getMauroDelta().subscribe(posts => {
       this.mauroPieChart = new UsagePieChart();
@@ -32,18 +26,6 @@ export class CurrentConsumptionComponent {
 
       const scale = 3600 - +this.mauroCurrentUsage;
       this.mauroPieChart.pieChartData = [this.mauroCurrentUsage, scale];
-    });
-
-    this.postsService.getArthurDelta().subscribe(posts => {
-      this.arthurPieChart = new UsagePieChart();
-      this.arthurPreviousTime = posts.current_tick;
-      this.arthurCurrentTime = posts.previous_tick;
-
-      this.arthurDeltaTime = this.arthurPreviousTime - this.arthurCurrentTime;
-      this.arthurCurrentUsage = Math.floor(3600 / this.arthurDeltaTime);
-
-      const scale = 3600 - +this.arthurCurrentUsage;
-      this.arthurPieChart.pieChartData = [this.arthurCurrentUsage, scale];
     });
   }
 }
